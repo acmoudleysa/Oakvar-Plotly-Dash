@@ -3,15 +3,13 @@ import oakvar as ov
 import json
 
 
-
 # Importing the sqlite data as pandas dataframe
-df = ov.get_df_from_db('test.txt.sqlite').to_pandas()
-print(df)
+df = ov.get_df_from_db('../test.txt.sqlite').to_pandas()
+
 #df.drop(labels=['base__all_mappings','clinvar__disease_refs'],inplace= True,axis = 1)
 
-
 # Dropping some null columns
-#df.dropna(axis = 1, how = 'all', inplace = True)
+df.dropna(axis = 1, how = 'all', inplace = True)
 
 
 # Initialize
@@ -32,19 +30,6 @@ def logo():
                 id='logo',
                 children = [html.Img(src = 'assets/OakVar.png',style={'width': '40px', 'height': 'auto','margin':'5px 0px 0px 170px' })],style={'background-color':'white'})
 
-def logo():
-    """Create OakVar logo
-    Returns
-    -------
-    A div containing OakVar logo
-    """
-    return html.Div(
-                id='logo',
-                style={'margin-left': '130px'},
-                children=[html.Img(src='assets/OakVar.png',
-                                    style={'width': '100px', 'height': 'auto'})])
-
-
 def description_oakvar():
     """Create a description of OakVar
     
@@ -52,13 +37,12 @@ def description_oakvar():
     -------
     A div containing dashboard title and information
     """
-    return html.Div(id='description_init',
+    return html.Div(id = 'description_init',
                     children=[
                         html.H3('A Genomic Variant Analysis Platform'),
                     ])
 
-
-def dropdown_basechrom(dataframe=df):
+def dropdown_basechrom(dataframe = df):
     """Create a dropdown menu along with description
     Parameters
     ----------
@@ -78,7 +62,7 @@ def dropdown_basechrom(dataframe=df):
     ,style={'width': '50%', 'margin':'auto'})])
 
 
-def annotation_table(dataframe=df):
+def annotation_table(dataframe = df):
     """Create a annotation data table
     
     Parameters
@@ -111,25 +95,15 @@ app.layout = html.Div(children=[
     ],style={'width': '70%', 'display': 'inline-block','background-color': 'rgb(240, 240, 240)', 'height': '100vh'})
 ],style={'width':'100%'})
 
+
 @callback(Output(component_id='annotation_table', component_property='data'),
           Input(component_id='dropdown_base_chrom', component_property='value'))
 def update_table(value):
-    """Updating the table based on value selected from dropdown
-    Parameters
-    ----------
-    value : str or None
-        The value selected from the dropdown. If None, the function returns all records in the table
-
-    Returns
-    -------
-    list of dict
-        A list of dictionaries representing the records in the updated table.
-    """
     if value is None:
         return df.to_dict('records')
     else: 
-        dff=df.copy(deep=True)
-        dff=dff.loc[df.base__chrom==value]
+        dff = df.copy(deep = True)
+        dff = dff.loc[df.base__chrom == value]
         return dff.to_dict('records')
 
 @app.callback(
