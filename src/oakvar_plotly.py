@@ -1,4 +1,4 @@
-from dash import Dash, dcc, html, Input, Output, callback, dash_table
+from dash import Dash, html, Input, Output, callback
 import oakvar as ov
 import json
 import components
@@ -39,12 +39,12 @@ def update_table(value):
         dff = dff.loc[df.base__chrom == value]
         return dff.to_dict('records')
 
+
 @app.callback(
     Output('table_data', 'children'),
     Input('annotation_table', 'data'),
     Input('annotation_table', 'active_cell')
 )
-
 def print_it(data, select_data):
     if not select_data:
         return f"No cells selected {select_data}"
