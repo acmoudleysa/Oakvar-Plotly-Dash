@@ -1,8 +1,8 @@
-from dash import Dash, html, Input, Output, callback
+from dash import Dash, html, Input, Output
 import oakvar as ov
 import json
 import components
-import utils
+
 
 
 # Importing the sqlite data as pandas dataframe
@@ -22,14 +22,14 @@ app.title = "OakVar"
 
 app.layout = html.Div(children=[
     components.logo(),
-    html.Div(children=[components.description_oakvar(), components.dropdown_basechrom()
+    html.Div(children=[components.description_oakvar(), components.dropdown_basechrom(df)
     ],style={'width': '30%', 'display': 'inline-block','vertical-align':'top','background-color': 'rgb(250, 250, 250)','text-align': 'center', 'height': '100vh'}),
-    html.Div(children=[*utils.make_break(2),components.annotation_table(),*utils.make_break(2),components.table_select_data()
+    html.Div(children=[*components.make_break(2),components.annotation_table(df),*components.make_break(2),components.table_select_data()
     ],style={'width': '70%', 'display': 'inline-block','background-color': 'rgb(240, 240, 240)', 'height': '100vh'})
 ],style={'width':'100%'})
 
 
-@callback(Output(component_id='annotation_table', component_property='data'),
+@app.callback(Output(component_id='annotation_table', component_property='data'),
           Input(component_id='dropdown_base_chrom', component_property='value'))
 def update_table(value):
     if value is None:
@@ -50,7 +50,6 @@ def print_it(data, select_data):
         return f"No cells selected {select_data}"
     
     cell_data = select_data
-
     return f'The data is: {cell_data}'
 
 

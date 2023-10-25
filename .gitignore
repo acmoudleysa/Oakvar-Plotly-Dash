@@ -1,3 +1,4 @@
 *.sqlite
 *.txt
 .python-version
+**/__pycache__/

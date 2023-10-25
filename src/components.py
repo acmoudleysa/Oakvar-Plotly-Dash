@@ -1,4 +1,11 @@
-from dash import Dash, dcc, html, Input, Output, callback, dash_table
+from dash import dcc, html, dash_table
+
+
+def make_break(num_breaks):
+    br_list = [html.Br()]*num_breaks
+    return  br_list
+
+
 def logo():
     """Create OakVar logo
     Returns
@@ -23,7 +30,7 @@ def description_oakvar():
                     ])
 
 
-def dropdown_basechrom(dataframe = df):
+def dropdown_basechrom(dataframe):
     """Create a dropdown menu along with description
     Parameters
     ----------
@@ -42,7 +49,8 @@ def dropdown_basechrom(dataframe = df):
         html.Div(dcc.Dropdown(id = 'dropdown_base_chrom', options = [{'label': str(i).capitalize(), 'value': i} for i in dataframe.base__chrom.unique()], value = None, searchable=True)
     ,style={'width': '50%', 'margin':'auto'})])
 
-def annotation_table(dataframe = df):
+
+def annotation_table(dataframe):
     """Create a annotation data table
     
     Parameters
