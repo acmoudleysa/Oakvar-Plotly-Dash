@@ -49,7 +49,6 @@ def dropdown_basechrom(dataframe):
         html.Div(dcc.Dropdown(id = 'dropdown_base_chrom', options = [{'label': str(i).capitalize(), 'value': i} for i in dataframe.base__chrom.unique()], value = None, searchable=True)
     ,style={'width': '50%', 'margin':'auto'})])
 
-
 def annotation_table(dataframe):
     """Create a annotation data table
     
